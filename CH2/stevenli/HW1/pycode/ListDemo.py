@@ -15,24 +15,6 @@ class listObj:
 
     print('My dictionary is', mydict)
 
-# create a new stack
-class stack:
-    # create a new stack
-    def __init__(self):
-        self.stack=[]
-        #print("my stack is ", self.stack)
-
-    # use list append method to add element in stack
-    def add_elemens(self, weekday):
-        if weekday not in self.stack:
-            self.stack.append(weekday)
-            return True
-        else:
-            return False
-
-    # Use peek to check the top element in stack
-    def peek(self):
-        return self.stack(-1)
 
 # create a tree class
 class tree:
@@ -41,16 +23,15 @@ class tree:
         self.right = None
         self.val=key
 
-    
+
 
 
 # create a main function to call above method and class
 def main():
     print("This is main function")
-    mystack = stack()
-    mystack.add_elemens('Mon')
 
-    print(mystack.peek)
+
+
 
 if __name__=='__main__':
     main()
