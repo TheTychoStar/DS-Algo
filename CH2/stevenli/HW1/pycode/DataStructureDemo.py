@@ -49,6 +49,19 @@ def main():
     print(mydictionary["jack"])
 
     # Create a binary tree
+    n1 = Node("root")
+    n2 = Node("left child node")
+    n3 = Node("right child node")
+    n4 = Node("left grandchild node")
+    n1.left = n2
+    n1.right = n3
+    n2.left = n4
+
+    # traverse to the left end node
+    current = n1
+    while current:
+        print(current.data)
+        current = current.left
 
 
 
