@@ -58,9 +58,12 @@ def main():
     print("My set is: ", myset)
 
     # Create a Tuple
-    mytuple = 12345, 45678, 'hello tuple'
+    mytuple = (12345, 45678, 'hello tuple')
+    mytuple2= ('physics', 'chemistry', 1997, 1998)
+    thesumtuple = mytuple+mytuple2
+    print('Therefore I got a new tuple: ', thesumtuple)
     # tuple can be nested
-    #just a quick check for merge
+
 
 
 

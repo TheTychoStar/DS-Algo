@@ -13,13 +13,20 @@ import pandas as pd
 print(pd.DataFrame(res))
 
 #Aggregate Indicators
-print(finnhub_client.aggregate_indicator('AAPL', 'D'))
+#print(finnhub_client.aggregate_indicator('AAPL', 'D'))
 
 #Basic financials
 print(finnhub_client.company_basic_financials('AAPL', 'margin'))
 
 # Earnings surprises
-print(finnhub_client.company_earnings('TSLA', limit=5))
+#print(finnhub_client.company_earnings('TSLA', limit=5))
 
 # EPS estimates
-print(finnhub_client.company_eps_estimates('AMZN', freq='quarterly'))
+#print(finnhub_client.company_eps_estimates('AMZN', freq='quarterly'))
+
+# Company Executives
+#print(finnhub_client.company_executive('AAPL'))
+
+# Company News
+# Need to use _form instead of form to avoid conflicit
+#print(finnhub_client.company_news('AAPL', _from="2020-06-01", to="2020-06-10"))
