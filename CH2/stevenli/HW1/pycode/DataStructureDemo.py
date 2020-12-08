@@ -48,6 +48,25 @@ def main():
     # Get the value of "jack"
     print(mydictionary["jack"])
 
+    # loop through dictionary
+    print("Loop through my dictionary")
+    for k, v in mydictionary.items():
+        print(k, v)
+
+    # Create a set
+    myset = {'apple', 'orange', 'apple', 'pear', 'orange', 'banana'}
+    print("My set is: ", myset)
+
+    # Create a Tuple
+    mytuple = 12345, 45678, 'hello tuple'
+    # tuple can be nested
+    #just a quick check for merge
+
+
+
+    # Create a Sequence
+
+
     # Create a binary tree
     n1 = Node("root")
     n2 = Node("left child node")
@@ -58,6 +77,7 @@ def main():
     n2.left = n4
 
     # traverse to the left end node
+    print("Traverse binary tree to the left end")
     current = n1
     while current:
         print(current.data)
