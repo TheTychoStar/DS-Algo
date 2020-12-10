@@ -5,9 +5,20 @@ from collections import deque
 # Class for binary tree
 class Node:
     def __init__(self, data):
-        self.left = None
-        self.right = None
         self.data = data
+        self.left_child = None
+        self.right_child = None
+
+    # recursive function to return an in-order listing of nodes
+    def inorder (self, root_node):
+        current = root_node
+        if current is None:
+            return
+        self.inorder(current.left_child)
+        print(current.data)
+        self.inorder(current.right_child)
+
+
 
 
 
@@ -67,25 +78,17 @@ def main():
 
 
 
-    # Create a Sequence
-
-
     # Create a binary tree
-    n1 = Node("root")
+    n1 = Node("root node")
     n2 = Node("left child node")
     n3 = Node("right child node")
     n4 = Node("left grandchild node")
-    n1.left = n2
-    n1.right = n3
-    n2.left = n4
 
-    # traverse to the left end node
-    print("Traverse binary tree to the left end")
-    current = n1
-    while current:
-        print(current.data)
-        current = current.left
+    n1.left_child = n2
+    n1.right_child = n3
+    n2.left_child = n4
 
+    n1.inorder(n1)
 
 
 
