@@ -8,6 +8,20 @@ class Node:
         self.data = data
         self.left_child = None
         self.right_child = None
+    # insert a node in the tree
+    def insert(self, data):
+        if self.root_node is None:
+            self.root_node = Node(data)
+        else:
+            current = self.root_node
+            parent = None
+            while True:
+                parent = current
+                
+
+
+
+
 
     # recursive function to return an in-order listing of nodes
     def inorder (self, root_node):
@@ -19,6 +33,50 @@ class Node:
         self.inorder(current.right_child)
 
 
+# Create a Hash table class
+class HashItem:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+
+class HashTable:
+    def __init__(self):
+        self.size = 256
+        self.slots = [None for i in range(self.size)]
+        self.count = 0
+
+    def _hash(self, key):
+        mult = 1
+        hv = 0
+        for ch in key:
+            hv += mult * ord(ch)
+            mult += 1
+        return hv % self.size
+
+    def put (self, key, value):
+        item = HashItem(key, value)
+        h = self._hash(key)
+        while self.slots[h] is not None:
+            if self.slots[h].key is key:
+                break
+            h = (h+1) % self.size
+        if self.slots[h] is None:
+            self.count += 1
+
+        self.slots[h] = item
+
+    def get(self, key):
+        h = self._hash(key)
+        while self.slots[h] is not None:
+            if self.slots[h].key is key:
+                return self.slots[h].value
+            h = (h+1) % self.size
+
+    def __setitem__(self, key, value):
+        self.put(key, value)
+
+    def __getitem__(self, key):
+        return self.get(key)
 
 
 
@@ -89,6 +147,24 @@ def main():
     n2.left_child = n4
 
     n1.inorder(n1)
+
+    # Create a new hash table
+    ht = HashTable()
+    # ht.put("good", "eggs")
+    # ht.put("better", "ham")
+    # ht.put("best", "spam")
+    # ht.put("ad", "do not")
+    # ht.put("ga", "collide")
+
+    ht["good"] = "eggs"
+    ht["better"] = "ham"
+    ht["best"] = "spam"
+    ht["ad"] = "do not"
+    ht["ga"] = "collide"
+    #
+    for key in ("good", "better", "best", "worst", "ad", "ga"):
+        v = ht.get(key)
+        print(v)
 
 
 
