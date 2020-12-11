@@ -42,3 +42,12 @@ print("After slicing: ", np_array4)
 array_slice[:] = 64
 print("Second slicing: ", np_array4)
 
+# Create  a 2 dimensional array
+array2d = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print("The second element of array: ", array2d[1])
+print("The 3rd value of 2nd sub array: ", array2d[1][2])
+
+# Create a 3 Dimensional array
+array3d = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+print("The 3D array is: ", array3d)
+
