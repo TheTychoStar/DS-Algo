@@ -1,5 +1,6 @@
 import psycopg2
 from configparser import ConfigParser
+import pandas as pd
 
 
 # set up connection to local db
@@ -20,39 +21,8 @@ def config(filename='database.ini', section='postgresql'):
 
     return db
 
-# Query file title and description
-def query_filmTitleAndDescription():
-
-    conn = None
-
-    try:
-        # read connetion parameters
-        params = config()
-        # connect to PostgreSQL server
-        conn = psycopg2.connect(**params)
-        print("connecting to database")
-        # create a cursor
-        cur = conn.cursor()
-        # Query title and description from file table
-        cur.execute("SELECT title, description FROM film")
-        row = cur.fetchone()
-
-        while row is not None:
-            print(row)
-            row = cur.fetchone()
-
-        #
-        # close the communication with the PostgreSQL
-        cur.close()
-    except (Exception, psycopg2.DatabaseError)as error:
-        print("except")
-    finally:
-        conn.close()
-        print("Database connection closed")
-
-
 # Query first name and last name from customer table
-def query_firstnameAndlastnameFromCustomerTable(query_string):
+def Get_QueryResult(query_string):
     print (query_string)
 
     try:
@@ -60,10 +30,11 @@ def query_firstnameAndlastnameFromCustomerTable(query_string):
         params = config()
         # connect to PostgreSQL server
         conn = psycopg2.connect(**params)
+
         print("connecting to database")
         # create a cursor
         cur = conn.cursor()
-        # Query title and description from file table
+        # Execute the query
         cur.execute(query_string)
         row = cur.fetchone()
 
@@ -75,16 +46,92 @@ def query_firstnameAndlastnameFromCustomerTable(query_string):
         # close the communication with the PostgreSQL
         cur.close()
     except (Exception, psycopg2.DatabaseError)as error:
-        print("except")
+        print("except: ", error)
     finally:
-        conn.close()
+        if conn is not None:
+            conn.close()
 
-# test push
+
+# Covert sql query result to pandas dataframe
+def ConvertQueryToDataFrame(string):
+    print(string)
+
+
+    # read connetion parameters
+    params = config()
+
+    try:
+        # connect to PostgreSQL server
+        conn = psycopg2.connect(**params)
+        print("connecting to database")
+        # create a cursor
+        #cur = conn.cursor()
+        # Execute the query
+        # Covert to pandas dataframe
+        row = pd.read_sql_query(string, conn)
+
+        print(row)
+
+
+
+
+        #
+        # close the communication with the PostgreSQL
+        #cur.close()
+    except (Exception, psycopg2.DatabaseError)as error:
+        print("except: ", error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+
+
+
 
 if __name__=='__main__':
-    query_filmTitleAndDescription()
+    #Get_QueryResult("SELECT title, description FROM film")
+    # Query first name and last name from customer table
+    ConvertQueryToDataFrame("SELECT first_name,last_name FROM customer")
+    # Inner Join customer and payment table
+    queryStr = "SELECT " \
+               "CUSTOMER.CUSTOMER_ID, " \
+               "FIRST_NAME, " \
+               "LAST_NAME, " \
+               "AMOUNT, " \
+               "PAYMENT_DATE " \
+               "FROM " \
+               "CUSTOMER " \
+               "INNER JOIN PAYMENT " \
+               "ON PAYMENT.CUSTOMER_ID=CUSTOMER.CUSTOMER_ID " \
+               "ORDER BY PAYMENT_DATE"
 
-    query_firstnameAndlastnameFromCustomerTable("SELECT first_name,last_name FROM customer")
+    #Get_QueryResult(queryStr)
+
+    ConvertQueryToDataFrame(queryStr)
+
+    # Group By with SUM() function
+    queryStr = "SELECT " \
+               "CUSTOMER_ID, " \
+               "SUM(amount) " \
+               "FROM " \
+               "PAYMENT " \
+               "GROUP BY " \
+               "CUSTOMER_ID;"
+    ConvertQueryToDataFrame(queryStr)
+
+    # Left Join to join film table with the inventory table
+    queryStr = "SELECT " \
+               "FILM.FILM_ID, " \
+               "TITLE, " \
+               "INVENTORY_ID " \
+               "FROM " \
+               "FILM " \
+               "LEFT JOIN INVENTORY " \
+               "ON INVENTORY.FILM_ID = FILM.FILM_ID " \
+               "ORDER BY TITLE;"
+    ConvertQueryToDataFrame(queryStr)
+
 
     conn = None
 
