@@ -34,4 +34,4 @@ git branch
 
 ### Now we can tick the task list as finished
 [x] Root directory README.md finished
-[ ]HW1 code practice
+[ ] HW1 code practice
