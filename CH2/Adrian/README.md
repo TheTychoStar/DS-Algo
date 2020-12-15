@@ -33,5 +33,5 @@ git branch
      - see my other [**README.md**](HW1/README.md) under **HW1** folder
 
 ### Now we can tick the task list as finished
-[x] Root directory README.md finished
-[ ] HW1 code practice
+ [x] Root directory README.md finished
+ [ ] HW1 code practice
