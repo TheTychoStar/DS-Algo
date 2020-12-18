@@ -4,7 +4,7 @@ Algo-trading Application
 ## Chapter 2 Best Practice
 
 
-This folder demostrate the steps of homework of best practice of git, Python and SQL. 
+
 
 ## git
 
