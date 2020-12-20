@@ -21,9 +21,10 @@ def config(filename='database.ini', section='postgresql'):
 
     return db
 
+
 # Query first name and last name from customer table
 def Get_QueryResult(query_string):
-    print (query_string)
+    print(query_string)
 
     try:
         # read connetion parameters
@@ -56,7 +57,6 @@ def Get_QueryResult(query_string):
 def ConvertQueryToDataFrame(string):
     print(string)
 
-
     # read connetion parameters
     params = config()
 
@@ -65,19 +65,16 @@ def ConvertQueryToDataFrame(string):
         conn = psycopg2.connect(**params)
         print("connecting to database")
         # create a cursor
-        #cur = conn.cursor()
+        # cur = conn.cursor()
         # Execute the query
         # Covert to pandas dataframe
         row = pd.read_sql_query(string, conn)
 
         print(row)
 
-
-
-
         #
         # close the communication with the PostgreSQL
-        #cur.close()
+        # cur.close()
     except (Exception, psycopg2.DatabaseError)as error:
         print("except: ", error)
     finally:
@@ -85,12 +82,8 @@ def ConvertQueryToDataFrame(string):
             conn.close()
 
 
-
-
-
-
-if __name__=='__main__':
-    #Get_QueryResult("SELECT title, description FROM film")
+if __name__ == '__main__':
+    # Get_QueryResult("SELECT title, description FROM film")
     # Query first name and last name from customer table
     ConvertQueryToDataFrame("SELECT first_name,last_name FROM customer")
     # Inner Join customer and payment table
@@ -106,7 +99,7 @@ if __name__=='__main__':
                "ON PAYMENT.CUSTOMER_ID=CUSTOMER.CUSTOMER_ID " \
                "ORDER BY PAYMENT_DATE"
 
-    #Get_QueryResult(queryStr)
+    # Get_QueryResult(queryStr)
 
     ConvertQueryToDataFrame(queryStr)
 
@@ -132,6 +125,4 @@ if __name__=='__main__':
                "ORDER BY TITLE;"
     ConvertQueryToDataFrame(queryStr)
 
-
     conn = None
-
