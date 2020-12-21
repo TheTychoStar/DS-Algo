@@ -24,26 +24,25 @@ CREATE TABLE public.sales
 CREATE INDEX index_sales_date
 ON sales (sales_date);
 
-INSERT INTO salesperson (name) VALUES ('William');
-INSERT INTO salesperson (name) VALUES ('Neo');
-INSERT INTO salesperson (name) VALUES ('Harry');
+INSERT INTO salesperson (name) VALUES ('William'),('Neo'),('Harry');
 
 
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('1',23.4,'2020-01-01');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('2',23.2,'2020-01-01');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('3',24.2,'2020-01-01');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('1',23.4,'2020-01-02');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('2',24.3,'2020-01-02');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('3',22.4,'2020-01-02');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('1',23.4,'2020-01-03');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('2',23.4,'2020-01-03');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('3',23.4,'2020-01-03');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('1',25.3,'2020-01-04');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('2',23.2,'2020-01-04');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('3',26.7,'2020-01-04');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('1',25.3,'2020-01-05');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('2',23.2,'2020-01-05');
-INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES ('3',26.7,'2020-01-05');
+INSERT INTO SALES (salesperson_id,sales_amount,sales_date) VALUES 
+('1',23.4,'2020-01-01'),
+('2',23.2,'2020-01-01'),
+('3',24.2,'2020-01-01'),
+('1',23.4,'2020-01-02'),
+('2',24.3,'2020-01-02'),
+('3',22.4,'2020-01-02'),
+('1',23.4,'2020-01-03'),
+('2',23.4,'2020-01-03'),
+('3',23.4,'2020-01-03'),
+('1',25.3,'2020-01-04'),
+('2',23.2,'2020-01-04'),
+('3',26.7,'2020-01-04'),
+('1',25.3,'2020-01-05'),
+('2',23.2,'2020-01-05'),
+('3',26.7,'2020-01-05');
 
 -- Find all dates having total sale amount over 70.5
 SELECT sales_date AS total_sale FROM sales GROUP BY sales_date
