@@ -5,7 +5,7 @@ import pandas as pd
 
 # set up connection to local db
 def config(filename='database.ini', section='postgresql'):
-    # create a parset
+    # create a parser
     parser = ConfigParser()
     # read config file
     parser.read(filename)
@@ -21,8 +21,54 @@ def config(filename='database.ini', section='postgresql'):
 
     return db
 
+# Create a new database table
+def create_table(table_name, sqlCommand):
+    conn = None
+    try:
+        # read the connection parameters
+        params = config()
+        # connect to the PostgreSQL server
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        # Drop the table if existing
+        cur.execute("DROP TABLE IF EXISTS "+table_name+" ;")
+        # create table one by one
+        cur.execute(sqlCommand)
+        # close communication with the PostgreSQL database server
+        cur.close()
+        # commit the changes
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally :
+        if conn is not None:
+            conn.close()
 
-# Query first name and last name from customer table
+# Execute sql command
+def execute_postgresql(table_name, sqlCommand):
+    print("execute_postgresql")
+    conn=None
+    try:
+        # read the connection parameters
+        params = config()
+        # connect to the PostgreSQL server
+        conn = psycopg2.connect ( **params )
+        cur = conn.cursor()
+        # create table one by one
+        cur.execute(sqlCommand)
+        # close communication with the PostgreSQL database server
+        cur.close()
+        # commit the changes
+        conn.commit()
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+
+
+# SELECT query
 def Get_QueryResult(query_string):
     print(query_string)
 
@@ -124,5 +170,54 @@ if __name__ == '__main__':
                "ON INVENTORY.FILM_ID = FILM.FILM_ID " \
                "ORDER BY TITLE;"
     ConvertQueryToDataFrame(queryStr)
+
+    # Using PostgreSQL ORDER BY claus to
+    # sort rows by multiple columns
+    queryStr="SELECT " \
+             "FIRST_NAME, " \
+             "LAST_NAME " \
+             "FROM " \
+             "CUSTOMER " \
+             "ORDER BY " \
+             "FIRST_NAME ASC, " \
+             "LAST_NAME DESC;"
+    ConvertQueryToDataFrame(queryStr)
+
+    # create a new table by passing a sql command
+    table_name = "employee"
+    sqlCommand = "create table if not exists "\
+                 +table_name+\
+                 " (employee_id INT PRIMARY KEY, " \
+                 "first_name varchar(255) NOT NULL, " \
+                 "last_name varchar(255) NOT NULL, " \
+                 "manager_id INT, " \
+                 "FOREIGN KEY(manager_id) " \
+                 "REFERENCES employee (employee_id) " \
+                 "ON DELETE CASCADE);"
+    create_table(table_name, sqlCommand)
+    # insert one row into employee table
+    sqlCommand = "INSERT INTO " \
+                 +table_name+\
+                " (employee_id, first_name, last_name, manager_id) " \
+                "VALUES (1, 'Windy', 'Hays', NULL), " \
+                "(2, 'Ava', 'Christensen', 1), " \
+                "(3, 'Hassan', 'Conner', 1), " \
+                "(4, 'Anna', 'Reeves', 2), " \
+                "(5, 'Sau', 'Norman', 2), " \
+                "(6, 'Kelsie', 'Hays', 3), " \
+                "(7, 'Tory', 'Goff', 3), " \
+                "(8, 'Salley', 'Lester', 3);"
+    execute_postgresql(table_name, sqlCommand)
+
+    # Use self-join to find who reports to whom
+    sqlCommand = "SELECT " \
+                 "e.first_name || '' || e.last_name employee, " \
+                 "m.first_name || '' || m.last_name manager " \
+                 "FROM " \
+                 "employee e " \
+                 "INNER JOIN employee m ON m.employee_id=e.manager_id " \
+                 "ORDER BY manager;"
+    ConvertQueryToDataFrame (sqlCommand)
+
 
     conn = None

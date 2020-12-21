@@ -136,3 +136,4 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+/CH2/stevenli/HW2/database_hw2.ini
