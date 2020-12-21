@@ -2,7 +2,7 @@ import psycopg2 as psycopg2
 import pandas as pd
 
 def getSalesRecord(cur):
-    cur.execute('SELECT * from sales order by sales_date')
+    cur.execute('SELECT name, sales_amount, sales_date from sales inner join salesperson on id = salesperson_id order by sales_date')
 
     # display the PostgreSQL database server version
     data = cur.fetchall()
