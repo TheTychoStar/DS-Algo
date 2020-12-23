@@ -8,9 +8,8 @@ songbin
 
 ## CH2 SQL
 
-
 ### HW2 --SQL
 
 
-
+![image](https://github.com/zsb8/DS-Algo/blob/songbin_DS/CH2/songbin/HW2/oracle.png)
 
