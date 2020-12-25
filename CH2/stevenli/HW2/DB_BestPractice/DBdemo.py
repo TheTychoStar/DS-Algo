@@ -235,14 +235,66 @@ if __name__ == '__main__':
 
 
     # Find the highest replacement_cost from film table
-    print("The result below is return the DVD title which has highest replacement cost.")
+    print("The result below returns the DVD title which has highest replacement cost.")
     commands = "SELECT TITLE, REPLACEMENT_COST FROM FILM ORDER BY REPLACEMENT_COST DESC LIMIT 5"
     get_fetchresult(commands, 2)
 
     # Find the sum of replacement_cost of DVDs whose title start from B
-    print("The result below returned the total cost of DVD from film table.")
+    print("The result below returns the total cost of DVD from film table.")
     commands = "SELECT SUM(REPLACEMENT_COST) FROM FILM WHERE TITLE LIKE 'B%'"
     get_fetchresult(commands, 2)
+
+    # Using Postgresql inner join to join customer and payment tables.
+    # Whenever a customer makes a payment, a new row is inserted into the payment table. Each customer may have
+    # many payments. Each payment belongs to one and only one customer. The customer_id column establishes the
+    # relationship between the two tables
+    print("The result below return INNER JOINT ")
+    commands = "SELECT " \
+               "customer.customer_id, " \
+               "first_name, " \
+               "last_name, " \
+               "amount, " \
+               "payment_date " \
+               "FROM " \
+               "customer " \
+               "INNER JOIN payment " \
+               "ON payment.customer_id = customer.customer_id " \
+               "ORDER BY payment_date " \
+               "LIMIT 5;"
+    get_fetchresult(commands, 2)
+
+    # Using Postgresql left join to join film and inventory table
+    # Each row in the film table may have zero or many rows in the inventory table.
+    # Each row in the inventory table has one and only one row in the film table.
+    # The film_id column establishes the link between the film and inventory tables.
+    # The following statement uses the LEFT JOIN clause to join film table with the inventory table
+    print("LEFT JOIN , join film table with inventory table")
+    commands = "SELECT " \
+               "film.film_id, " \
+               "title, " \
+               "inventory_id " \
+               "FROM " \
+               "film " \
+               "LEFT JOIN inventory " \
+               "ON inventory.film_id = film.film_id " \
+               "ORDER BY title " \
+               "LIMIT 5;"
+    get_fetchresult(commands, 2)
+
+    print("RIGHT JOIN , join film table and inventory table")
+    commands = "SELECT " \
+               "inventory.last_update " \
+               "FROM " \
+               "inventory " \
+               "RIGHT JOIN film " \
+               "using (film_id)" \
+               "LIMIT 5;"
+    get_fetchresult(commands, 2)
+
+
+
+
+
 
 
 
