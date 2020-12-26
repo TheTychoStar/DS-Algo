@@ -291,6 +291,15 @@ if __name__ == '__main__':
                "LIMIT 5;"
     get_fetchresult(commands, 2)
 
+    # UNION operation with table language and category
+    print("The result below unions table language dna category.")
+    commands = "SELECT * " \
+               "FROM language " \
+               "UNION ALL " \
+               "SELECT * FROM category;"
+    get_fetchresult(commands, 2)
+
+
 
 
 
