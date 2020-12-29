@@ -1,7 +1,8 @@
 import psycopg2
 from configparser import ConfigParser
 import finnhub
-import datetime
+from datetime import datetime
+
 
 
 # set up connection to local db
@@ -63,12 +64,12 @@ def create_table():
         sqlcommand = "CREATE TABLE IF NOT EXISTS stockcandles ( " \
                      "stock_id      SERIAL PRIMARY KEY, " \
                      "symbol        VARCHAR(50) NOT NULL, " \
-                     "open          VARCHAR(50) NOT NULL, " \
-                     "high          VARCHAR(50) NOT NULL, " \
-                     "low           VARCHAR(50) NOT NULL, " \
-                     "close         VARCHAR(50) NOT NULL, " \
-                     "volume        VARCHAR(50) NOT NULL," \
-                     "logtime       DATE NOT NULL);"
+                     "close         FLOAT NOT NULL, " \
+                     "high          FLOAT NOT NULL, " \
+                     "low           FLOAT NOT NULL, " \
+                     "open          FLOAT NOT NULL, " \
+                     "time          TIMESTAMPTZ NOT NULL," \
+                     "volume        INT NOT NULL);"
         cur.execute (sqlcommand)
         # close communication with the PostgreSQL database server
         cur.close()
@@ -89,9 +90,9 @@ def insertSingleRow():
         cur = conn.cursor ()
         # create table one by one
         sqlcommand = "INSERT INTO stockcandles" \
-                     "(symbol, open, high, low, close, volume, logtime) " \
+                     "(symbol, close, high, low, open, time, volume) " \
                      "VALUES " \
-                     "('AAPL', '2.5', '7.5', '1.5', '5.5', '9999999', '2020-06-01');"
+                     "('AAPL', 2.5, 7.5, 1.5, 5.5, '2020-06-01', 999999999);"
         cur.execute(sqlcommand)
         # close communication with the PostgreSQL database server
         cur.close ()
@@ -117,10 +118,11 @@ def insertDataFrameIntoTable(df):
         # Use for loop to write dataframe into table. There might be a performance issue if dataframe size is huge.
         for x in tuples:
             sqlcommand = "INSERT INTO stockcandles" \
-                         "(symbol, open, high, low, close, volume, logtime) " \
+                         "(symbol, close, high, low, open, time, volume) " \
                          "VALUES " \
                          "('AAPL', %s, %s, %s, %s, %s, %s);"
-            val = (x[0], x[1], x[2], x[3], x[5], datetime.datetime.fromtimestamp(int(x[6])).strftime('%Y-%m-%d'))
+            val = (format(x[0], '.2f'), format(x[1], '.2f'), format(x[2], '.2f'),
+                   format(x[3], '.2f'), datetime.fromtimestamp(x[5]), int(x[6]))
             cur.execute(sqlcommand, val)
 
 
@@ -146,12 +148,14 @@ if __name__ == '__main__':
     finnhub_client = finnhub.Client ( api_key="bv4f2qn48v6qpatdiu3g" )
 
     # Stock candles
-    res = finnhub_client.stock_candles ( 'AAPL', 'D', 1590988249, 1591852249)
+    res = finnhub_client.stock_candles('AAPL', 'D', 1590988249, 1591852249)
 
 
     # Convert to Pandas Dataframe
     import pandas as pd
     insertDataFrameIntoTable(pd.DataFrame(res))
+
+
 
 
 
