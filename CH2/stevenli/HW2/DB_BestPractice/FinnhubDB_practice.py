@@ -62,7 +62,6 @@ def create_table():
         cur = conn.cursor()
         # create table one by one
         sqlcommand = "CREATE TABLE IF NOT EXISTS stockcandles ( " \
-                     "stock_id      SERIAL PRIMARY KEY, " \
                      "symbol        VARCHAR(50) NOT NULL, " \
                      "close         FLOAT NOT NULL, " \
                      "high          FLOAT NOT NULL, " \
