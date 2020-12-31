@@ -41,7 +41,7 @@ def drop_table():
     try:
         conn = cursor_setup()
         cur = conn.cursor()
-        cur.execute("DROP TABLE IF EXISTS vendor_parts, part_drawings, parts, vendors")
+        cur.execute("DROP TABLE IF EXISTS vendor_parts, part_drawings, parts, vendors, sale, sale_201901, sale_201902")
         cur.close()
         conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -297,6 +297,54 @@ if __name__ == '__main__':
                "FROM language " \
                "UNION ALL " \
                "SELECT * FROM category;"
+    get_fetchresult(commands, 2)
+
+    # Create an index for the values in the phone column of the address table.
+    print("The result below shows the address information with phone number is 223664661973")
+    commands = "CREATE INDEX IF NOT EXISTS idx_address_phone ON address(phone);"
+    execute_sql(commands)
+    commands = "SELECT * FROM address WHERE phone='223664661973'"
+    get_fetchresult(commands, 2)
+
+    # Below is partition demo
+    # First, I create a TABLE sale and partition by range (sale_date);
+    commands = "CREATE TABLE sale (" \
+               "sale_date       date not null, " \
+               "country_code    text, " \
+               "product_sku     text, " \
+               "units           integer " \
+               ") PARTITION BY RANGE(sale_date);"
+    execute_sql(commands)
+    # Create partitions. Each partition defines a range of values for the partition key.
+    # I added two partitions, one for Jaunary 2019 and the other for February 2019.
+    commands = "CREATE TABLE sales_201901 PARTITION OF sale " \
+               "FOR VALUES FROM ('2019-01-01') TO ('2019-02-01');"
+    execute_sql(commands)
+    commands = "CREATE TABLE sale_201902 PARTITION OF sale " \
+               "FOR VALUES FROM ('2019-02-01') TO ('2019-03-01')"
+    execute_sql(commands)
+    # Now, it is the time to insert data in sale table
+    commands = "INSERT INTO sale " \
+               "(sale_date, country_code, product_sku, units) " \
+               "VALUES" \
+               "('2019-01-01', 'NY',  'P-000A1', 65), " \
+               "('2019-01-02', 'NY',  'P-000A1',  3), " \
+               "('2019-01-03', 'NY',  'P-000A2', 43), " \
+               "('2019-02-01', 'NY',  'P-000A2', 69), " \
+               "('2019-02-02', 'NY',  'P-000A1',  2), " \
+               "('2019-02-03', 'NY',  'P-000A1', 17), " \
+               "('2019-01-01', 'NJ',  'P-000A2', 70), " \
+               "('2019-01-02', 'NJ',  'P-000A2', 98), " \
+               "('2019-01-03', 'NJ',  'P-000A1', 39), " \
+               "('2019-02-01', 'NJ',  'P-000A1', 17), " \
+               "('2019-02-02', 'NJ',  'P-000A2', 82), " \
+               "('2019-02-03', 'NJ',  'P-000A2', 46);"
+    execute_sql(commands)
+
+    # Query to fetch sales from January 2019
+    print("The execution plan shows that Postgresql scanned only a single partition, sale_201901. ")
+    commands = "EXPLAIN SELECT * FROM sale " \
+               "WHERE sale_date BETWEEN '2019-01-01' AND '2019-01-31';"
     get_fetchresult(commands, 2)
 
 
