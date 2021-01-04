@@ -17,7 +17,7 @@ print("Data types:", data.dtype)
 # Create a new ndarray
 data_forarray = [6, 7.5, 8, 0, 1]
 np_array = np.array(data_forarray)
-print("Np array is: ", np_array )
+print("Np array is: ", np_array)
 # create a second ndarry
 data_forarray2 = [[1, 2, 3, 4], [5, 6, 7, 8]]
 np_array2 = np.array(data_forarray2)
@@ -50,4 +50,3 @@ print("The 3rd value of 2nd sub array: ", array2d[1][2])
 # Create a 3 Dimensional array
 array3d = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
 print("The 3D array is: ", array3d)
-

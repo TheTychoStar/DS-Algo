@@ -22,8 +22,7 @@ print(states)
 print(pd.DataFrame(population, columns=['population']))
 
 # From a dictionary of Series objects
-print(pd.DataFrame({'population': population,
-              'area': area}))
+print(pd.DataFrame(dict(population=population, area=area)))
 
 # From an NumPy structured array
 A = np.zeros(3, dtype=[('A', 'i8'), ('B', 'f8')])
@@ -62,4 +61,3 @@ print(data)
 print(data[1:3])
 # loc
 print("loc: ", data.loc[1])
-print("loc[1:3]". data.loc[1:3])
