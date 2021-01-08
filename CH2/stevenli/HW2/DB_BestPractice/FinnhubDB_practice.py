@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 # set up connection to local db
-def config(filename='database_hw2.ini', section='postgresql'):
+def config(filename='database_finnhub.ini', section='postgresql'):
     # create a parser
     parser = ConfigParser()
     # read config file
@@ -69,7 +69,7 @@ def create_table():
                      "open          FLOAT NOT NULL, " \
                      "time          TIMESTAMPTZ NOT NULL," \
                      "volume        INT NOT NULL);"
-        cur.execute (sqlcommand)
+        cur.execute(sqlcommand)
         # close communication with the PostgreSQL database server
         cur.close()
         # commit the changes
@@ -152,7 +152,10 @@ if __name__ == '__main__':
 
     # Convert to Pandas Dataframe
     import pandas as pd
+    # insert Dataframe into stockcandles table.
     insertDataFrameIntoTable(pd.DataFrame(res))
+
+    print("The End of FinnhubDB_practice.py")
 
 
 
