@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 # set up connection to local db
-def config(filename='database_hw2.ini', section='postgresql'):
+def config(filename='database_finnhub.ini', section='postgresql'):
     # create a parser
     parser = ConfigParser()
     # read config file
@@ -154,6 +154,8 @@ if __name__ == '__main__':
     # Convert to Pandas Dataframe
     import pandas as pd
     insertDataFrameIntoTable(pd.DataFrame(res))
+
+    print("The End of finnhubdb_practice")
 
 
 
