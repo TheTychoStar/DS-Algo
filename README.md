@@ -2,20 +2,4 @@
 Algo-trading Application 
 
 ## Chapter 2 Best Practice
-
-
-This folder demostrate the steps of homework of best practice of git, Python and SQL. 
-
-## git
-
-
-
-## Python
-
-
-
-## PostgreSQL
-
-
-----------------This is the end of the README.md-------------
-
+songbin.zhang
