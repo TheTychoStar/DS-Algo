@@ -11,7 +11,7 @@ class FinnhubQuery:
         start_seconds = int((start - self.base_time).total_seconds())
         end_seconds = int((end - self.base_time).total_seconds())
 
-        with effects.FinnhubClient('bv83fhf48v6vtpa0fjkg') as finnhub:
+        with effects.FinnhubClient() as finnhub:
             # 1, 5, 15, 30, 60, D, W, M
             data = finnhub.client.stock_candles(symbol, resolution, start_seconds, end_seconds)
             if(data["s"] == "ok"):
@@ -26,7 +26,7 @@ class OldDataQuery:
     def __init__(self):
         self.base_time = datetime(1970, 1, 1)
         self.cadnles_foramt = """SELECT symbol, open, close, high, low, volume, \
-            tick FROM candles_tick WHERE symbol = '{symbol}' ORDER BY tick DESC limit 1"""
+            tick FROM candles_tick_daily WHERE symbol = '{symbol}' ORDER BY tick DESC limit 1"""
 
     def latest_candle(self, symbol: str):
         with effects.PostgresqlStore('Like1hate_') as db:

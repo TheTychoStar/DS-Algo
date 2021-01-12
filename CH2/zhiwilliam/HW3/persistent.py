@@ -4,7 +4,7 @@ import logging
 
 class SaveData():
     def __init__(self):
-        self.insert_candle_foramt = """INSERT INTO candles_tick \
+        self.insert_candle_foramt = """INSERT INTO candles_tick_daily \
                 (symbol, open, close, high, low, volume, tick) \
                 VALUES ('{symbol}', %s, %s, %s, %s, %s, %s)"""
 

@@ -9,7 +9,7 @@ import logging
 
 # We will retrieve latest 2 ticks data to make some overlap
 delta_switcher = {
-    '1': timedelta(weeks=52),
+    '1': timedelta(minutes=2),
     '5': timedelta(minutes=10),
     '30': timedelta(hours=1),
     'D': timedelta(days=2),
