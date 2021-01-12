@@ -38,6 +38,7 @@ class OldDataQuery:
                 return data
             except Exception as error:
                 logging.error(error)
+            cur.close()
 
 
 if __name__ == "__main__":
