@@ -4,6 +4,7 @@ from datetime import datetime
 from datetime import timedelta
 # from decimal import Decimal
 import csv
+import pytz
 import logging
 
 
@@ -17,6 +18,7 @@ delta_switcher = {
 }
 
 logging.basicConfig(filename='etl.log', level=logging.DEBUG)
+est = pytz.timezone('US/Eastern')
 
 
 def tick_delta(resolution):
@@ -25,7 +27,7 @@ def tick_delta(resolution):
 
 def getCurrentTick(symbols, resolution):
     query = FinnhubQuery()
-    now = datetime.now()
+    now = datetime.now().astimezone(est)
     try:
         return query.candles(symbols, resolution, now - tick_delta(resolution), now)
     except Exception as error:
