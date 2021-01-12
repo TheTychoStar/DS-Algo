@@ -27,12 +27,11 @@ def tick_delta(resolution):
 
 def getCurrentTick(symbols, resolution):
     query = FinnhubQuery()
-    now = datetime.now().astimezone(est)
+    now = datetime.now().astimezone(est).replace(tzinfo=None)
     try:
         return query.candles(symbols, resolution, now - tick_delta(resolution), now)
     except Exception as error:
         logging.error(error)
-
 
 def load_and_etl(symbol):
     resolution = 'D'
