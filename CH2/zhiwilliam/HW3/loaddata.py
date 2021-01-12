@@ -33,7 +33,7 @@ def getCurrentTick(symbols, resolution):
 
 
 def load_and_etl(symbol):
-    resolution = '1'
+    resolution = 'D'
     db_tick_index = 6
     # db_open_index = 1
     tick_index = 5
