@@ -29,7 +29,7 @@ class OldDataQuery:
             tick FROM candles_tick_daily WHERE symbol = '{symbol}' ORDER BY tick DESC limit 1"""
 
     def latest_candle(self, symbol: str):
-        with effects.PostgresqlStore('Like1hate_') as db:
+        with effects.PostgresqlStore() as db:
             cur = db.conn.cursor()
             sql = self.cadnles_foramt.format(symbol=symbol)
             try:

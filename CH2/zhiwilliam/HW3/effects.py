@@ -2,9 +2,10 @@ import os
 import finnhub
 import configparser
 import psycopg2
+from twilio.rest import Client
 
 
-class FinnhubClient():
+class FinnhubClient:
     def __init__(self, api_key=os.environ.get("FINNHUB_API_KEY")):
         self.api_key = api_key
         self.client = None
@@ -17,7 +18,7 @@ class FinnhubClient():
         self.client.close()
 
 
-class PostgresqlStore():
+class PostgresqlStore:
     def __init__(self, db_password=os.environ.get("DB_PASSWORD")):
         config = configparser.ConfigParser()
         config.read_file(open('application.conf'))
@@ -35,3 +36,16 @@ class PostgresqlStore():
 
     def __exit__(self, type, value, traceback):
         self.conn.close()
+
+
+class SMS:
+    def __init__(self, sid=os.environ.get("TWILIO_ACCOUNT_SID"), token=os.environ['TWILIO_AUTH_TOKEN']):
+        self.account_sid = os.environ['TWILIO_ACCOUNT_SID']
+        self.auth_token = os.environ['TWILIO_AUTH_TOKEN']
+
+    def __enter__(self):
+        self.client = Client(self.account_sid, self.auth_token)
+        return self
+
+    def __exit__(self, type, value, traceback):
+        pass

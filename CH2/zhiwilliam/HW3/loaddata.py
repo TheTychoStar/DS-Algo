@@ -2,6 +2,7 @@ from query import FinnhubQuery, OldDataQuery
 from persistent import SaveData
 from datetime import datetime
 from datetime import timedelta
+from effects import SMS
 # from decimal import Decimal
 import csv
 import pytz
@@ -32,6 +33,7 @@ def getCurrentTick(symbols, resolution):
         return query.candles(symbols, resolution, now - tick_delta(resolution), now)
     except Exception as error:
         logging.error(error)
+
 
 def load_and_etl(symbol):
     resolution = 'D'
@@ -67,3 +69,11 @@ if __name__ == "__main__":
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         for row in spamreader:
             load_and_etl(row[0])
+
+    with SMS() as sms:
+        sms.client.messages \
+                .create(
+                     body="Load data from finnhub done.",
+                     from_='+12566693745',
+                     to='+16475220400'
+                 )

@@ -9,7 +9,7 @@ class SaveData():
                 VALUES ('{symbol}', %s, %s, %s, %s, %s, %s)"""
 
     def candles(self, symbol, data):
-        with effects.PostgresqlStore('Like1hate_') as db:
+        with effects.PostgresqlStore() as db:
             cur = db.conn.cursor()
             sql = self.insert_candle_foramt.format(symbol=symbol)
             try:
