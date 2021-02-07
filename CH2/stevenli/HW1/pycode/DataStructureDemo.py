@@ -1,5 +1,6 @@
 from collections import deque
 
+
 # This is a py class for data structure demo
 
 # Class for binary tree
@@ -8,6 +9,7 @@ class Node:
         self.data = data
         self.left_child = None
         self.right_child = None
+
     # insert a node in the tree
     def insert(self, data):
         if self.root_node is None:
@@ -17,14 +19,9 @@ class Node:
             parent = None
             while True:
                 parent = current
-                
-
-
-
-
 
     # recursive function to return an in-order listing of nodes
-    def inorder (self, root_node):
+    def inorder(self, root_node):
         current = root_node
         if current is None:
             return
@@ -38,6 +35,7 @@ class HashItem:
     def __init__(self, key, value):
         self.key = key
         self.value = value
+
 
 class HashTable:
     def __init__(self):
@@ -53,13 +51,13 @@ class HashTable:
             mult += 1
         return hv % self.size
 
-    def put (self, key, value):
+    def put(self, key, value):
         item = HashItem(key, value)
         h = self._hash(key)
         while self.slots[h] is not None:
             if self.slots[h].key is key:
                 break
-            h = (h+1) % self.size
+            h = (h + 1) % self.size
         if self.slots[h] is None:
             self.count += 1
 
@@ -70,14 +68,13 @@ class HashTable:
         while self.slots[h] is not None:
             if self.slots[h].key is key:
                 return self.slots[h].value
-            h = (h+1) % self.size
+            h = (h + 1) % self.size
 
     def __setitem__(self, key, value):
         self.put(key, value)
 
     def __getitem__(self, key):
         return self.get(key)
-
 
 
 # create a main function to call above method and class
@@ -88,7 +85,7 @@ def main():
 
     print("Fruits are ", fruits)
 
-    #ceate a new stack
+    # ceate a new stack
     mystack = [3, 4, 5]
     print("stack is", mystack)
     # add element in stack
@@ -105,14 +102,14 @@ def main():
     # Append Terry and Graham in the queue
     myqueue.append("Terry")
     myqueue.append("Graham")
-    print("my queue is", myqueue,"after I added Terry and Graham in it")
+    print("my queue is", myqueue, "after I added Terry and Graham in it")
     # The first to arrive now leaves
     myqueue.popleft()
     print('my queue is', myqueue, 'after I removed the first element from queue')
 
     # Create a dictionary
-    mydictionary = {'jack':4098, 'sape':4139}
-    mydictionary['guido']=4127
+    mydictionary = {'jack': 4098, 'sape': 4139}
+    mydictionary['guido'] = 4127
     print('my dictionary is:', mydictionary)
     # Get the value of "jack"
     print(mydictionary["jack"])
@@ -128,13 +125,10 @@ def main():
 
     # Create a Tuple
     mytuple = (12345, 45678, 'hello tuple')
-    mytuple2= ('physics', 'chemistry', 1997, 1998)
-    thesumtuple = mytuple+mytuple2
+    mytuple2 = ('physics', 'chemistry', 1997, 1998)
+    thesumtuple = mytuple + mytuple2
     print('Therefore I got a new tuple: ', thesumtuple)
     # tuple can be nested
-
-
-
 
     # Create a binary tree
     n1 = Node("root node")
@@ -167,15 +161,5 @@ def main():
         print(v)
 
 
-
-
-
-
-
-
-if __name__=='__main__':
+if __name__ == '__main__':
     main()
-
-
-
-
